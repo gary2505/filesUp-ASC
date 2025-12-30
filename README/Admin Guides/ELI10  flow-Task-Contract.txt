@@ -1,0 +1,140 @@
+ELI10  flow-Task-Contract
+
+Imagine your app is a factory.
+A **Flow** is a “big job” (Open folder, Paste, Compare).
+A **Task** is a “small machine step” inside that job.
+A **Contract** is a “quality check” that says “did we get the right result?”.
+A **Debug Bundle** is the “factory report” saved to `.ai/bundles/latest.bundle.md`.
+
+Now your rules say: every big job must follow the same factory procedure.
+
+---
+
+## 1) New Flow requirements (ELI10)
+
+**Every new flow MUST:**
+
+### ✅ A) Start through the same gate
+
+You must wrap the flow in:
+
+`runFlowWithContracts("flowName", async (ctx) => { ... })`
+
+Why?
+Because that wrapper does the important boring stuff automatically:
+
+* resets trace buffer
+* collects events + contracts
+* decides pass/fail
+* writes the debug bundle
+
+So every flow produces the same kind of “factory report”.
+
+### ✅ B) Add events for major steps
+
+Inside the flow you do:
+
+`ctx.addEvent("OPEN_FOLDER_START", "Open folder started", { folderPath })`
+
+Events are like “checkpoints” you can read fast in the bundle.
+
+### ✅ C) Add at least one contract
+
+After doing work, you do:
+
+`const contract = checkXyzContract(input, result);`
+`ctx.addContract(contract);`
+
+Contracts are your “quality check”.
+
+### ✅ D) Return output
+
+The flow callback must `return result;`
+So other parts of the app can use it.
+
+---
+
+## 2) Contracts = QA Gate (ELI10)
+
+A **contract** is always:
+
+`{ input, expected, got, ok }`
+
+* `expected` = what you *want*
+* `got` = what actually happened
+* `ok` = `true` if they match
+
+### The rule:
+
+If **any contract ok === false**:
+
+* the flow must be considered **FAILED**
+* debug bundle must say FAIL
+* QA must exit with non-zero (red)
+
+So contracts are like:
+
+> “If the quality check fails, the whole job is marked failed.”
+
+---
+
+## 3) Tracing & runtime (ELI10)
+
+You keep a global list of events (trace buffer).
+Every flow run does:
+
+* **Reset trace buffer at start**
+* Add events as it goes
+* Add contracts as it goes
+* At the end: write everything into:
+
+✅ `.ai/bundles/latest.bundle.md`
+
+So you always have one clear “what happened” report.
+
+---
+
+## 4) Entry points (ELI10)
+
+You have two “ways to run the factory”:
+
+### A) App startup (frontend)
+
+* When the app opens, it runs:
+
+  * `runBootFlow()`
+
+This produces a bundle too.
+
+### B) QA mode (node scripts)
+
+* `pnpm qa` runs:
+
+  * `scripts/run-contracts.ts`
+
+That script runs contracts (and/or flows) in Node environment and exits:
+
+* `0` if all good
+* `1` if any contract fails
+
+Both pathways must produce the same style bundle.
+
+---
+
+## What this gives you (the big win)
+
+You stop doing:
+
+* “add logs please”
+* “I can’t see logs”
+* “copy/paste logs to agent”
+
+Instead:
+
+* run app or QA
+* bundle updates automatically
+* agent reads bundle and patches only what’s needed
+
+---
+
+If you want, I can rewrite these requirements into a **short AGENTS.md section** you can paste into your repo (10–20 lines, strict, no ambiguity).

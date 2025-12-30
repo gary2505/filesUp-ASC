@@ -1,0 +1,25 @@
+{
+  "productName": "filesUP-ASC",
+  "version": "0.0.1",
+  "identifier": "com.filesup.asc",
+  "build": {
+    "beforeDevCommand": "pnpm vite -- --host 127.0.0.1 --port 5173 --strictPort",
+    "devUrl": "http://127.0.0.1:5173",
+    "beforeBuildCommand": "pnpm vite:build",
+    "frontendDist": "../dist"
+  },
+  "app": {
+    "windows": [
+      {
+        "title": "filesUP-ASC",
+        "width": 1200,
+        "height": 800,
+        "resizable": true,
+        "fullscreen": false
+      }
+    ],
+    "security": {
+      "csp": null
+    }
+  }
+}

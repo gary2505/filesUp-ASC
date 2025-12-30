@@ -1,0 +1,327 @@
+
+Ниже — готовый **bootstrap-промпт** для VS Code / Copilot / Claude-in-VSCode.
+Просто **скопируй его как есть** в чат агента в VS Code.
+Это *“код для агента”*, не для людей 🙂.
+
+---
+
+```text
+ROLE
+You are a Solo AI Coding Agent working inside VS Code on my machine.
+This repository is called `filesup-asc`.
+Only YOU create and edit code here. I do NOT touch code manually, I only run commands and describe bugs.
+
+TARGET STACK
+- Desktop app using Tauri 2 (Rust backend, WebView UI, no plugins)
+- Frontend: Svelte 5 with Runes enabled
+- UI: TailwindCSS + DaisyUI
+- Tooling/runtime: pnpm
+- OS target: desktop only (no SSR, no PWA)
+
+ARCHITECTURE: ASC (Agent System Coding) — key rules
+1) Patch-only development
+   - You must return changes as patch/unified diff or clearly scoped edits.
+   - Never dump full files unless I explicitly ask for full file content.
+   - Aim to keep each file under 250 lines. Prefer to split instead of growing a giant file.
+
+2) Debug Bundle = single source of truth for you
+   - App must always write a debug bundle after each run / failure:
+     `.ai/bundles/latest.bundle.md`
+   - This file will contain:
+     - TRACE_SUMMARY: compact map of the last run (key checkpoints)
+     - Last N trace events (timeline)
+     - Failing contracts: {input, expected, got}
+     - Log tail (frontend + backend)
+     - Minimal code anchors (file + line ranges, not the full file)
+   - In future sessions you MUST assume you FIRST read this file before changing code.
+
+3) Contracts = QA
+   - Important units of logic must have contracts:
+     `{input, expected, got}`
+   - On mismatch: log trace event like `K=10 FAIL <contract_name>` and return non-zero exit.
+   - `pnpm run qa` === “green / fixed”. If QA fails, you keep iterating with minimal changes.
+
+4) Agent-first modularity: Tasks & Flows
+   - Do NOT build a classic `stores/services/utils`-jungle.
+   - Primary structure:
+     - `src/asc/tasks/`    → small, focused units (max ~250 lines per file)
+     - `src/asc/flows/`    → composition of tasks into flows (user-level actions)
+     - `src/asc/contracts/`→ contract definitions + helpers
+   - Existing “platform” modules from old FilesUP architecture must be respected and ported later:
+     - Core/GPS (orchestration)
+     - Smart Errors
+     - Click & Key Control
+   - For now, just create clean stubs for these.
+
+5) Size gates (enforced by QA later)
+   - Target: `MAX_TASK_LINES = 250`, `MAX_BLOCK_LINES ≈ 80`.
+   - You must set up a simple check in `pnpm run qa` that fails if any TS/Svelte/Rust file grows too big (stub logic is enough for now; real enforcement can be refined later).
+
+SESSION GOAL (THIS REQUEST)
+Bootstrap a fresh project `filesup-asc` with:
+1. Working Tauri 2 + Svelte 5 (runes) + Tailwind + DaisyUI desktop app.
+2. taskFlow folder layout for Tasks/Flows/Contracts and debug bundles.
+3. Basic QA pipeline wired to `pnpm run qa` (even if QA is mostly stubs now).
+4. A minimal “Hello ASC” flow that uses:
+   - one Task (in `src/taskFlow/tasks/`)
+   - one Flow (in `src/taskFlow/flows/`)
+   - one Contract (in `src/taskFlow/contracts/`)
+   - and writes `.ai/bundles/latest.bundle.md` on startup.
+
+CONSTRAINTS & BEHAVIOR
+- No human editing: assume only you will change code.
+- Prefer smaller, composable files over “god files”.
+- Always think about future debugging by agent:
+  - logs must be structured and short,
+  - trace points must be easy to scan in the bundle.
+- Do not create unnecessary abstractions; keep it simple and explicit.
+- Use clear, consistent naming so future agents can grep by name.
+
+DELIVERABLES FOR THIS SESSION
+1) List the terminal commands I must run (in correct order), for example:
+   - how to init pnpm + Tauri 2
+   - how to install Svelte 5 + Tailwind + DaisyUI
+   - how to run dev/qa scripts
+
+2) Create the initial folder structure and base files:
+   - `src-tauri/` with minimal Tauri 2 config and Rust entry
+   - `src/` with Svelte 5 (runes) entry and a simple root layout
+   - `src/taskFlow/tasks/`, `src/asc/flows/`, `src/asc/contracts/`
+   - `.ai/bundles/` (with a stub `latest.bundle.md` writer)
+   - `qa/` or equivalent for QA scripts
+   - `pnpm` scripts in package.json for:
+     - `dev` (run app)
+     - `qa`  (run checks)
+
+3) Show your changes as:
+   - Terminal commands (for me to copy-paste and run)
+   - Then clearly structured code edits (patch-style or per-file sections).
+
+Do NOT over-explain to a human. Focus on being a disciplined coding agent.
+```
+
+---
+
+Если хочешь, дальше я могу сделать **второй промпт**: для будущих сессий, где агент уже будет **читать `.ai/bundles/latest.bundle.md` и чинить баги** по нему.
+
+Nice, you’ve done the boring rename part 🎯
+
+You’re now here:
+
+* ✅ `pnpm` is the main tool (install/dev/qa).
+* ✅ `src/taskFlow` → `src/taskFlow` and imports fixed.
+* ✅ `index.ts` points to `taskFlow`.
+
+**Next steps now (in ASC-logic):**
+
+---
+
+## 1️⃣ Add the `.ai/bundles` debug system (minimal version)
+
+Ask your VS Code agent to:
+
+1. Create folder: `.ai/bundles/`.
+2. Add a tiny helper like `src/taskFlow/core/debugBundle.ts` that writes a single file:
+
+```ts
+// src/taskFlow/core/debugBundle.ts
+import fs from "fs";
+import path from "path";
+
+const BUNDLE_PATH = path.join(process.cwd(), ".ai", "bundles", "latest.bundle.md");
+
+export type TraceEvent = {
+  t: string;        // ISO time
+  k: string;        // key, e.g. "BOOT_OK" or "K=10 FAIL boot-contract"
+  msg: string;
+  data?: any;
+};
+
+export type DebugBundle = {
+  TRACE_SUMMARY: string;
+  events: TraceEvent[];
+  contracts: Array<{
+    name: string;
+    input: any;
+    expected: any;
+    got: any;
+    ok: boolean;
+  }>;
+  logTail: string[];
+};
+
+export function writeDebugBundle(bundle: DebugBundle) {
+  const lines: string[] = [];
+
+  lines.push("# DEBUG BUNDLE (latest)");
+  lines.push("");
+  lines.push("## TRACE_SUMMARY");
+  lines.push(bundle.TRACE_SUMMARY || "no summary");
+  lines.push("");
+
+  lines.push("## EVENTS");
+  for (const e of bundle.events) {
+    lines.push(`- ${e.t} [${e.k}] ${e.msg}`);
+  }
+  lines.push("");
+
+  lines.push("## CONTRACTS");
+  for (const c of bundle.contracts) {
+    lines.push(`### ${c.name}`);
+    lines.push("- ok: " + c.ok);
+    lines.push("- input: `" + JSON.stringify(c.input) + "`");
+    lines.push("- expected: `" + JSON.stringify(c.expected) + "`");
+    lines.push("- got: `" + JSON.stringify(c.got) + "`");
+    lines.push("");
+  }
+
+  lines.push("## LOG TAIL");
+  for (const line of bundle.logTail) {
+    lines.push("- " + line);
+  }
+
+  fs.mkdirSync(path.dirname(BUNDLE_PATH), { recursive: true });
+  fs.writeFileSync(BUNDLE_PATH, lines.join("\n"), "utf8");
+}
+```
+
+This is the “one canonical file” the agent will read later.
+
+---
+
+## 2️⃣ Wire one simple Task + Flow + Contract that writes the bundle on startup
+
+Tell the agent to create:
+
+* `src/taskFlow/tasks/bootTask.ts`
+* `src/taskFlow/contracts/bootContract.ts`
+* `src/taskFlow/flows/bootFlow.ts`
+
+Example (conceptually):
+
+```ts
+// src/taskFlow/contracts/bootContract.ts
+export type BootInput = { appVersion: string };
+export type BootOutput = { ok: boolean };
+
+export function checkBootContract(input: BootInput, output: BootOutput) {
+  const expected = { ok: true };
+  const ok = output.ok === expected.ok;
+
+  return {
+    name: "boot-contract",
+    input,
+    expected,
+    got: output,
+    ok
+  };
+}
+```
+
+```ts
+// src/taskFlow/tasks/bootTask.ts
+import type { BootOutput } from "../contracts/bootContract";
+
+export async function runBootTask(): Promise<BootOutput> {
+  // later: more checks (env, config, etc.)
+  return { ok: true };
+}
+```
+
+```ts
+// src/taskFlow/flows/bootFlow.ts
+import { runBootTask } from "../tasks/bootTask";
+import { checkBootContract } from "../contracts/bootContract";
+import { writeDebugBundle } from "../core/debugBundle";
+
+export async function runBootFlow(appVersion: string) {
+  const start = new Date().toISOString();
+
+  const output = await runBootTask();
+  const contract = checkBootContract({ appVersion }, output);
+
+  writeDebugBundle({
+    TRACE_SUMMARY: contract.ok
+      ? `BOOT OK for version ${appVersion}`
+      : `BOOT FAIL for version ${appVersion}`,
+    events: [
+      {
+        t: start,
+        k: contract.ok ? "BOOT_OK" : "K=10 FAIL boot-contract",
+        msg: "Boot flow finished",
+        data: { appVersion, output }
+      }
+    ],
+    contracts: [contract],
+    logTail: [] // later: add logs here
+  });
+
+  if (!contract.ok) {
+    // later: non-zero exit or error for QA
+    throw new Error("Boot contract failed");
+  }
+}
+```
+
+Then, in your Svelte/Tauri startup (wherever your app first runs frontend logic), call:
+
+```ts
+import { runBootFlow } from "./taskFlow/flows/bootFlow";
+
+runBootFlow(__APP_VERSION__ ?? "dev").catch(console.error);
+```
+
+(Agent should wire this correctly according to your current entry file.)
+
+---
+
+## 3️⃣ Hook `pnpm qa` to something real (even if tiny)
+
+Right now you said README uses pnpm for `install/dev/qa`.
+Ask the agent to:
+
+* In `package.json` add:
+
+```json
+{
+  "scripts": {
+    "dev": "tauri dev",
+    "build": "tauri build",
+    "qa": "pnpm lint && pnpm test:contracts",
+    "lint": "eslint src --ext .ts,.svelte || true",
+    "test:contracts": "node scripts/run-contracts.mjs"
+  }
+}
+```
+
+* Create `scripts/run-contracts.mjs` that:
+
+  * imports `runBootFlow`,
+  * runs it once in a Node-like environment or via a small Tauri test harness,
+  * exits with code `0` on success, `1` on failure.
+
+For now можно сделать stub: просто проверять, что `writeDebugBundle` отработал без ошибок.
+
+---
+
+## 4️⃣ Update the VS Code agent prompt
+
+Last step: update your **VS Code AI agent prompt**:
+
+* Change any mentions of `src/asc` → `src/taskFlow`.
+* Add one line like:
+
+> The debug bundle writer is in `src/taskFlow/core/debugBundle.ts`.
+> On every failure or startup, you must assume you can read `.ai/bundles/latest.bundle.md` first.
+
+---
+
+### TL;DR: what you should do right now
+
+1. **Tell the agent**: “Create `.ai/bundles` + `debugBundle.ts` exactly as above.”
+2. Then: “Create bootTask + bootContract + bootFlow and call runBootFlow on startup; bundle must be written on every run.”
+3. Then: “Wire `pnpm qa` to run at least one contract check (boot) and fail on error.”
+
+После этого у тебя будет **минимальный живой ASC-скелет**:
+каждый запуск → trace + contract → `.ai/bundles/latest.bundle.md` → готово для умного авто-фикса агентом.
+

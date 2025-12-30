@@ -1,0 +1,25 @@
+{
+  "generated": "2025-12-30T16:38:04.298Z",
+  "root": "V:\\filesUp-ASC",
+  "taskFlowExists": true,
+  "taskFlowSubfolders": [
+    "contracts",
+    "core",
+    "flows",
+    "runtime",
+    "tasks",
+    "trace"
+  ],
+  "bundlePathOk": true,
+  "qaPathOk": true,
+  "packPathOk": true,
+  "bootFlowPathOk": true,
+  "tauriBackendOk": true,
+  "lastFailingContract": null,
+  "nextPlan": [
+    "If QA FAIL: fix the first failing contract shown above",
+    "Ensure app runtime writes bundle after every flow (bundle-first)",
+    "Add Command + dispatch layer (mouse+keyboard unify)",
+    "Implement sortFlow + sortContract and wire UI sort triggers to dispatch(Cmd.Sort)"
+  ]
+}

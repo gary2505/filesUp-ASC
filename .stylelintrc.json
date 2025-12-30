@@ -1,0 +1,3 @@
+{
+  "ignoreAtRules": ["apply", "layer", "responsive"]
+}

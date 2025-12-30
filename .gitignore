@@ -1,0 +1,11 @@
+node_modules/
+.next/
+dist/
+build/
+target/
+.DS_Store
+*.swp
+*.swo
+.env.local
+.vscode/settings.json
+.ai/bundles/*.md
