@@ -6,7 +6,7 @@ mod update;
 mod ai_bundle;
 
 use crate::update::{ApplyResult, DownloadResult, UpdateCheckResult};
-use crate::ai_bundle::write_latest_bundle;
+use crate::ai_bundle::{write_latest_bundle, write_debug_bundle};
 
 /// Entry point for the Tauri application.
 /// - Registers all Tauri commands (hello, debug bundle, folder listing, TUF updates).
@@ -21,7 +21,8 @@ pub fn run() {
       tuf_check_for_updates,
       tuf_download_update,
       tuf_apply_update,
-      write_latest_bundle
+      write_latest_bundle,
+      write_debug_bundle
     ])
     .run(tauri::generate_context!())
     .expect("error while running tauri application");

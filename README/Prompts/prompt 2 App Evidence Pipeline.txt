@@ -1,0 +1,103 @@
+prompt 2
+You are the Moderator + Implementer agent for “FilesUP-Taskflow” (filesup-asc).
+Stack: Tauri 2 desktop-only + Svelte 5 (Runes) + TailwindCSS + DaisyUI. pnpm. No SSR/PWA.
+
+GOAL (NOW)
+Implement App Evidence Pipeline so UI/Boot flows write canonical evidence to disk:
+  .ai/bundles/latest.bundle.md
+This enables min-human debugging: agent reads bundle -> fixes -> reruns QA.
+
+NON-NEGOTIABLE
+1) Bundle-first: .ai/bundles/latest.bundle.md is canonical evidence.
+2) Patch-only by default (minimal edits). Full file only if asked.
+3) Canonical layout ONLY: src/taskFlow/{core,runtime,trace,contracts,tasks,flows} (case-sensitive). NEVER create src/taskflow.
+4) Contracts shape ALWAYS: { name, input, expected, got, ok }. ok=false => FAIL.
+5) Flows emit readable events via ctx.addEvent(key,msg,data).
+6) File size discipline: keep files <250 lines (split if needed).
+7) NEW RULES:
+   A) Every touched/created *.ts and *.svelte MUST start with a comprehensive header comment:
+      - This is [path]+File name
+      - Used by: [path]/[file] or [not used]
+      - Purpose
+      - Trigger
+      - Event Flow
+      - List of functions
+   B) Every function must have comments: what it does + why it exists.
+
+START OF SESSION PROOF (required)
+- Run and paste:
+  Get-FileHash .ai/bundles/latest.bundle.md
+  Get-Content .ai/bundles/latest.bundle.md -TotalCount 25
+- Run and paste:
+  Get-Content .ai/state.md -TotalCount 80
+
+TASKS (implement in this order)
+
+(1) Rust backend: add a Tauri command to write the bundle to disk.
+- In src-tauri/src/lib.rs:
+  - Add:
+    #[tauri::command]
+    fn write_debug_bundle(md: String) -> Result<(), String> { ... }
+  - It must write to: <repoRoot>/.ai/bundles/latest.bundle.md
+  - Ensure directories exist.
+  - Return Err(String) on failure.
+  - Add this command to invoke_handler(generate_handler![...]).
+- Keep it minimal and production-safe.
+
+(2) Frontend TaskFlow runtime: implement writing bundle via invoke.
+Create these NEW files under src/taskFlow (each <250 lines, header comment + function comments):
+- src/taskFlow/trace/index.ts
+  - Provide types: TraceEvent, TaskFlowContract, TaskFlowCtx
+  - Provide: traceEvent(), addContract(), createTaskFlowCtx(), getTraceEvents(), getContracts(), resetTrace()
+  - traceEvent should also console.log for dev but bundle is canonical.
+- src/taskFlow/runtime/writeBundle.ts
+  - dynamic import @tauri-apps/api/core
+  - invoke("write_debug_bundle", { md })
+- src/taskFlow/runtime/formatBundle.ts
+  - function formatBundleMarkdown({summary, events, contracts, logTail?}) -> markdown string
+  - Format matches QA bundle style: TRACE_SUMMARY, EVENTS, CONTRACTS, LOG TAIL.
+- src/taskFlow/runtime/runFlowWithContracts.ts
+  - wrapper that:
+    resetTrace -> ctx.addEvent(FLOW_START) -> run fn(ctx) -> on error add FAIL contract -> finally collect events+contracts
+    Write bundle ALWAYS on FAIL, and writeOnOk option for Boot proof.
+    Use writeBundle(md).
+
+(3) Commands + dispatch (minimal skeleton)
+Create:
+- src/taskFlow/core/commands.ts
+  - Cmd union: Boot, Sort placeholder
+  - cmdBoot() helper
+- src/taskFlow/runtime/dispatch.ts
+  - dispatch(cmd): routes Boot to runBootFlow(); Sort can be TODO for later.
+
+(4) Boot flow proof
+Create:
+- src/taskFlow/flows/bootFlow.ts
+  - runBootFlow(): runFlowWithContracts("bootFlow", async(ctx)=>{ addEvent BOOT start/end }, {writeOnOk:true})
+
+(5) Wire boot to app startup (minimal)
+Find the best single startup entry in Svelte app (main.ts or root layout).
+- On app startup, call dispatch(cmdBoot()) ONE time.
+- Ensure it doesn’t run twice with HMR (guard with a module-level boolean).
+
+(6) Verification
+- Run: pnpm run qa (must remain green).
+- Run: pnpm tauri dev (or pnpm dev + tauri dev depending on project) and verify boot wrote a NEW .ai/bundles/latest.bundle.md.
+- Prove by pasting:
+  Get-FileHash .ai/bundles/latest.bundle.md
+  Get-Content .ai/bundles/latest.bundle.md -TotalCount 40
+  The bundle must include FLOW_START / BOOT events.
+
+REPORTING FORMAT (mandatory)
+- “What I believe is broken” (3–6 bullets, evidence-based)
+- “Next plan” (3–7 items)
+- “Changes made” (list files touched/created)
+- “Proof” (QA output + bundle hash + first 40 lines)
+
+DO NOT:
+- Create new folder names outside canonical layout.
+- Add huge refactors.
+- Add files >250 lines.
+- Assume anything without opening files.
+
+GO.

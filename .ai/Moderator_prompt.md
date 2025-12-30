@@ -6,6 +6,8 @@ Build an agent-first codebase where bugs automatically appear in:
   .ai/bundles/latest.bundle.md
 so an AI can fix issues without me copy-pasting logs.
 
+github: github.com/gary2505/filesUp-ASC
+
 NON-NEGOTIABLE RULES
 1) Bundle-first: treat .ai/bundles/latest.bundle.md as canonical evidence of what happened.
 2) Patch-only by default: output minimal diffs or tightly scoped edits. Give full file only if I ask.

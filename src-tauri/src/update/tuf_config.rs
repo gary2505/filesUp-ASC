@@ -13,7 +13,7 @@
 // using `tuftool` (or any other TUF tooling). :contentReference[oaicite:2]{index=2}
 
 use std::fs;
-use std::path::{Path, PathBuf};
+use std::path::PathBuf;
 
 use anyhow::{anyhow, Context, Result};
 use tauri::AppHandle;
@@ -89,6 +89,7 @@ pub fn default_tuf_config(app: &AppHandle) -> Result<TufConfig> {
 }
 
 /// Helper used in tests or dev builds to override URLs.
+#[allow(dead_code)]
 pub fn with_custom_urls(
     app: &AppHandle,
     metadata_url: &str,

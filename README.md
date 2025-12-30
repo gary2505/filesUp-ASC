@@ -1,5 +1,7 @@
 # filesUP-ASC
 
+github.com/gary2505/filesUp-ASC
+
 **Solo AI Coding Agent** desktop app using **Tauri 2 + Svelte 5 (runes) + TailwindCSS + DaisyUI + pnpm**.
 
 ## Architecture: ASC (Agent System Coding)

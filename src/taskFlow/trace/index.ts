@@ -32,7 +32,7 @@
  * - getTraceEvents(): read collected events
  * - getContracts(): read collected contracts
  * - resetTrace(): clear collected events/contracts
- **/
+ */
 
 export type TraceEvent = {
   t: string; // ISO time

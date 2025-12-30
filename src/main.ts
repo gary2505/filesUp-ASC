@@ -1,32 +1,26 @@
 import './app.css';
 import App from './App.svelte';
-import { runBootFlow } from './taskFlow/flows/bootFlow';
-import { writeLatestBundle } from './taskFlow/core/writeBundle';
+import { dispatch } from './taskFlow/runtime/dispatch';
+import { cmdBoot } from './taskFlow/core/commands';
 
 const app = new App({
   target: document.getElementById('app') as HTMLElement,
 });
 
-// Startup: run boot flow + write debug bundle
-(async () => {
-  const r = await runBootFlow("0.0.1");
-  const lines: string[] = [];
-  lines.push("# DEBUG BUNDLE (latest)\n");
-  lines.push("## TRACE_SUMMARY");
-  lines.push(`Boot flow for version 0.0.1\n`);
-  lines.push("## EVENTS");
-  lines.push(`- ${new Date().toISOString()} [FLOW_START] Flow bootFlow started`);
-  lines.push(`- ${new Date().toISOString()} [BOOT_OK] Boot contract ${r.ok ? "OK" : "FAIL"}`);
-  lines.push(`- ${new Date().toISOString()} [FLOW_CONTRACT_${r.ok ? "OK" : "FAIL"}] All contracts ${r.ok ? "passed" : "failed"} for bootFlow\n`);
-  lines.push("## CONTRACTS");
-  lines.push("### boot-contract");
-  lines.push(`- ok: ${r.contract.ok}`);
-  lines.push(`- input: \`${JSON.stringify(r.contract.input)}\``);
-  lines.push(`- expected: \`${JSON.stringify(r.contract.expected)}\``);
-  lines.push(`- got: \`${JSON.stringify(r.contract.got)}\`\n`);
-  lines.push("## LOG TAIL\n");
+// HMR guard: prevent running boot twice during hot reload
+// Why: Vite HMR would re-execute this module, causing duplicate boot flows.
+let bootExecuted = false;
 
-  await writeLatestBundle(lines.join("\n"));
-})();
+// Startup: dispatch Boot command ONCE
+if (!bootExecuted) {
+  bootExecuted = true;
+  
+  // Run boot flow on app startup
+  // Why: Generates initial bundle evidence proving app started correctly.
+  dispatch(cmdBoot({ appVersion: '0.0.1' }))
+    .catch(err => {
+      console.error('Boot dispatch failed:', err);
+    });
+}
 
 export default app;

@@ -23,13 +23,14 @@ pub struct UpdateDescriptor {
     /// "filesup/desktop-windows-x86_64/app-0.2.3.zip"
     pub target_name: String,
     /// Expected length from TUF metadata.
+    #[allow(dead_code)]
     pub length: u64,
 }
 
 // TODO: Implement with actual tough library when available
 pub type Repository = ();
 
-pub async fn load_repository(cfg: &TufConfig) -> Result<Repository> {
+pub async fn load_repository(_cfg: &TufConfig) -> Result<Repository> {
     // Stub implementation
     Ok(())
 }
