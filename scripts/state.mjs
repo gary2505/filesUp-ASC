@@ -14,7 +14,7 @@ import path from "node:path";
  *
  * Purpose:
  * - Produce a compact “repo snapshot” for the agent:
- *   - verifies canonical layout: src/taskFlow/{core,runtime,trace,contracts,tasks,flows}
+ *   - verifies canonical layout: src/qaTaskFlow/{core,runtime,trace,contracts,tasks,flows}
  *   - detects forbidden folder: src/taskflow (lowercase)
  *   - checks key files exist (bundle, qa, pack, bootFlow, tauri backend)
  *   - extracts last failing contract from latest.bundle.md
@@ -77,7 +77,7 @@ function safeReadText(p) {
 
 /**
  * List immediate subdirectories.
- * Why: gives agent a quick view of what exists under src/taskFlow.
+ * Why: gives agent a quick view of what exists under src/qaTaskFlow.
  *
  * @param {string} p - Directory path
  * @returns {string[]} Sorted folder names
@@ -152,7 +152,7 @@ export function generateState(opts = {}) {
   const planPath = opts.planPath ?? path.join(repoRoot, "docs", "next_plan.md");
 
   // ---- 1) Canonical folder checks ----
-  const taskFlowPath = path.join(repoRoot, "src", "taskFlow");
+  const taskFlowPath = path.join(repoRoot, "src", "qaTaskFlow");
   const taskFlowExists = fileExists(taskFlowPath);
 
   // Forbidden lowercase path (must NOT exist)
@@ -180,7 +180,7 @@ export function generateState(opts = {}) {
   ];
   const packPathFound = packCandidates.find((p) => fileExists(p)) ?? null;
 
-  const bootFlowPath = path.join(repoRoot, "src", "taskFlow", "flows", "bootFlow.ts");
+  const bootFlowPath = path.join(repoRoot, "src", "qaTaskFlow", "flows", "bootFlow.ts");
   const libPath = path.join(repoRoot, "src-tauri", "src", "lib.rs");
   const mainPath = path.join(repoRoot, "src-tauri", "src", "main.rs");
   const tauriPathFound = fileExists(libPath) ? libPath : fileExists(mainPath) ? mainPath : null;
@@ -236,7 +236,7 @@ export function generateState(opts = {}) {
     `Generated: ${state.generatedAt}\n`,
     "## Repo Structure",
     `- Root: \`${state.repoRoot}\``,
-    `- taskFlow exists: ${state.foldersFound.taskFlowExists}`,
+    `- qaTaskFlow exists: ${state.foldersFound.taskFlowExists}`,
     `- forbidden src/taskflow exists: ${state.foldersFound.wrongTaskflowExists}`,
     `- subfolders: ${state.foldersFound.subfolders.join(", ") || "(none)"}`,
     `- missing required: ${

@@ -60,12 +60,12 @@ ARCHITECTURE: ASC (Agent System Coding) — key rules
 SESSION GOAL (THIS REQUEST)
 Bootstrap a fresh project `filesup-asc` with:
 1. Working Tauri 2 + Svelte 5 (runes) + Tailwind + DaisyUI desktop app.
-2. taskFlow folder layout for Tasks/Flows/Contracts and debug bundles.
+2. qaTaskFlow folder layout for Tasks/Flows/Contracts and debug bundles.
 3. Basic QA pipeline wired to `pnpm run qa` (even if QA is mostly stubs now).
 4. A minimal “Hello ASC” flow that uses:
-   - one Task (in `src/taskFlow/tasks/`)
-   - one Flow (in `src/taskFlow/flows/`)
-   - one Contract (in `src/taskFlow/contracts/`)
+   - one Task (in `src/qaTaskFlow/tasks/`)
+   - one Flow (in `src/qaTaskFlow/flows/`)
+   - one Contract (in `src/qaTaskFlow/contracts/`)
    - and writes `.ai/bundles/latest.bundle.md` on startup.
 
 CONSTRAINTS & BEHAVIOR
@@ -86,7 +86,7 @@ DELIVERABLES FOR THIS SESSION
 2) Create the initial folder structure and base files:
    - `src-tauri/` with minimal Tauri 2 config and Rust entry
    - `src/` with Svelte 5 (runes) entry and a simple root layout
-   - `src/taskFlow/tasks/`, `src/asc/flows/`, `src/asc/contracts/`
+   - `src/qaTaskFlow/tasks/`, `src/asc/flows/`, `src/asc/contracts/`
    - `.ai/bundles/` (with a stub `latest.bundle.md` writer)
    - `qa/` or equivalent for QA scripts
    - `pnpm` scripts in package.json for:
@@ -109,8 +109,8 @@ Nice, you’ve done the boring rename part 🎯
 You’re now here:
 
 * ✅ `pnpm` is the main tool (install/dev/qa).
-* ✅ `src/taskFlow` → `src/taskFlow` and imports fixed.
-* ✅ `index.ts` points to `taskFlow`.
+* ✅ `src/qaTaskFlow` → `src/qaTaskFlow` and imports fixed.
+* ✅ `index.ts` points to `qaTaskFlow`.
 
 **Next steps now (in ASC-logic):**
 
@@ -121,10 +121,10 @@ You’re now here:
 Ask your VS Code agent to:
 
 1. Create folder: `.ai/bundles/`.
-2. Add a tiny helper like `src/taskFlow/core/debugBundle.ts` that writes a single file:
+2. Add a tiny helper like `src/qaTaskFlow/core/debugBundle.ts` that writes a single file:
 
 ```ts
-// src/taskFlow/core/debugBundle.ts
+// src/qaTaskFlow/core/debugBundle.ts
 import fs from "fs";
 import path from "path";
 
@@ -193,14 +193,14 @@ This is the “one canonical file” the agent will read later.
 
 Tell the agent to create:
 
-* `src/taskFlow/tasks/bootTask.ts`
-* `src/taskFlow/contracts/bootContract.ts`
-* `src/taskFlow/flows/bootFlow.ts`
+* `src/qaTaskFlow/tasks/bootTask.ts`
+* `src/qaTaskFlow/contracts/bootContract.ts`
+* `src/qaTaskFlow/flows/bootFlow.ts`
 
 Example (conceptually):
 
 ```ts
-// src/taskFlow/contracts/bootContract.ts
+// src/qaTaskFlow/contracts/bootContract.ts
 export type BootInput = { appVersion: string };
 export type BootOutput = { ok: boolean };
 
@@ -219,7 +219,7 @@ export function checkBootContract(input: BootInput, output: BootOutput) {
 ```
 
 ```ts
-// src/taskFlow/tasks/bootTask.ts
+// src/qaTaskFlow/tasks/bootTask.ts
 import type { BootOutput } from "../contracts/bootContract";
 
 export async function runBootTask(): Promise<BootOutput> {
@@ -229,7 +229,7 @@ export async function runBootTask(): Promise<BootOutput> {
 ```
 
 ```ts
-// src/taskFlow/flows/bootFlow.ts
+// src/qaTaskFlow/flows/bootFlow.ts
 import { runBootTask } from "../tasks/bootTask";
 import { checkBootContract } from "../contracts/bootContract";
 import { writeDebugBundle } from "../core/debugBundle";
@@ -266,7 +266,7 @@ export async function runBootFlow(appVersion: string) {
 Then, in your Svelte/Tauri startup (wherever your app first runs frontend logic), call:
 
 ```ts
-import { runBootFlow } from "./taskFlow/flows/bootFlow";
+import { runBootFlow } from "./qaTaskFlow/flows/bootFlow";
 
 runBootFlow(__APP_VERSION__ ?? "dev").catch(console.error);
 ```
@@ -308,10 +308,10 @@ For now можно сделать stub: просто проверять, что 
 
 Last step: update your **VS Code AI agent prompt**:
 
-* Change any mentions of `src/asc` → `src/taskFlow`.
+* Change any mentions of `src/asc` → `src/qaTaskFlow`.
 * Add one line like:
 
-> The debug bundle writer is in `src/taskFlow/core/debugBundle.ts`.
+> The debug bundle writer is in `src/qaTaskFlow/core/debugBundle.ts`.
 > On every failure or startup, you must assume you can read `.ai/bundles/latest.bundle.md` first.
 
 ---

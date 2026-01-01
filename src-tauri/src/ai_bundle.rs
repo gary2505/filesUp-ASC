@@ -52,7 +52,7 @@ pub fn write_latest_bundle(markdown: String) -> Result<String, String> {
 
 /// Alias for write_latest_bundle - writes the debug bundle to disk.
 /// Why: TaskFlow runtime needs a consistent command name for bundle evidence.
-/// Called by: src/taskFlow/runtime/writeBundle.ts
+/// Called by: src/qaTaskFlow/runtime/writeBundle.ts
 #[tauri::command]
 pub fn write_debug_bundle(md: String) -> Result<(), String> {
   let root = find_repo_root();

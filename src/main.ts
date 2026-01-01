@@ -1,10 +1,16 @@
 import './app.css';
+import { mount } from 'svelte';
 import App from './App.svelte';
-import { dispatch } from './taskFlow/runtime/dispatch';
-import { cmdBoot } from './taskFlow/core/commands';
+import { dispatch } from './qaTaskFlow/runtime/dispatch';
+import { cmdBoot } from './qaTaskFlow/core/commands';
 
-const app = new App({
-  target: document.getElementById('app') as HTMLElement,
+const appElement = document.getElementById('app');
+if (!appElement) {
+  throw new Error('Root element #app not found');
+}
+
+const app = mount(App, {
+  target: appElement,
 });
 
 // HMR guard: prevent running boot twice during hot reload

@@ -38,7 +38,7 @@ import process from "node:process";
  * - safeReadText(p): read file or null (why: QA should not crash on missing optional files)
  * - writeText(p,s): write file (why: bundle/state artifacts are mandatory)
  * - nowIso(): ISO time (why: stable timestamps)
- * - listDirs(p): list subfolders (why: detect src/taskFlow structure)
+ * - listDirs(p): list subfolders (why: detect src/qaTaskFlow structure)
  * - walkFiles(dir): list files recursively (why: size gates)
  * - countLines(text): count lines (why: ≤250 line gate)
  * - makeContract(...): build contract shape (why: canonical QA format)
@@ -96,7 +96,7 @@ function nowIso() {
 
 /**
  * List immediate subdirectories.
- * Why: used to report src/taskFlow structure quickly.
+ * Why: used to report src/qaTaskFlow structure quickly.
  *
  * @param {string} p - dir path
  * @returns {string[]}
@@ -115,7 +115,7 @@ function listDirs(p) {
 
 /**
  * Recursively walk files.
- * Why: size gates need to inspect every *.ts/*.svelte in src/taskFlow.
+ * Why: size gates need to inspect every *.ts/*.svelte in src/qaTaskFlow.
  *
  * @param {string} rootDir - directory to walk
  * @returns {string[]}
@@ -153,7 +153,7 @@ function walkFiles(rootDir) {
 
 /**
  * Count lines in a file.
- * Why: enforce ≤250 lines rule for taskFlow files.
+ * Why: enforce ≤250 lines rule for qaTaskFlow files.
  *
  * @param {string} text
  * @returns {number}
@@ -234,7 +234,7 @@ function renderStateMd(state) {
   lines.push("");
   lines.push("## Repo Structure");
   lines.push(`- Root: \`${state.root}\``);
-  lines.push(`- taskFlow exists: ${state.taskFlowExists ? "true" : "false"}`);
+  lines.push(`- qaTaskFlow exists: ${state.taskFlowExists ? "true" : "false"}`);
   lines.push(`- subfolders: ${state.taskFlowSubfolders.join(", ") || "(none)"}`);
   lines.push("");
   lines.push("## Key Files");
@@ -273,7 +273,7 @@ function runGates() {
   const STATE_MD = path.join(AI_DIR, "state.md");
 
   const qaPath = path.join(ROOT, "qa", "qa.mjs");
-  const taskFlowDir = path.join(ROOT, "src", "taskFlow");
+  const taskFlowDir = path.join(ROOT, "src", "qaTaskFlow");
   const wrongTaskflowDir = path.join(ROOT, "src", "taskflow"); // MUST NOT exist
 
   const now = nowIso();
@@ -329,7 +329,7 @@ function runGates() {
   );
   if (!noWrongDirOk) exitCode = 1;
 
-  // ---- Gate 2: enforce required taskFlow subfolders ----
+  // ---- Gate 2: enforce required qaTaskFlow subfolders ----
   const required = ["contracts", "core", "flows", "tasks", "runtime", "trace"];
   const taskFlowExists = fs.existsSync(taskFlowDir);
   const subfolders = taskFlowExists ? listDirs(taskFlowDir) : [];
@@ -339,15 +339,15 @@ function runGates() {
   contracts.push(
     makeContract(
       "layoutGate/requiredDirs",
-      { required: required.map((d) => `src/taskFlow/${d}`) },
+      { required: required.map((d) => `src/qaTaskFlow/${d}`) },
       { missing: [] },
-      { missing: missing.map((d) => `src/taskFlow/${d}`) },
+      { missing: missing.map((d) => `src/qaTaskFlow/${d}`) },
       layoutOk
     )
   );
   if (!layoutOk) exitCode = 1;
 
-  // ---- Gate 3: size gate (≤250 lines) for taskFlow TS/Svelte files ----
+  // ---- Gate 3: size gate (≤250 lines) for qaTaskFlow TS/Svelte files ----
   const MAX_LINES = 250;
   let violations = 0;
 
@@ -380,7 +380,7 @@ function runGates() {
   contracts.push(
     makeContract(
       "sizeGate/summary",
-      { scope: "src/taskFlow" },
+      { scope: "src/qaTaskFlow" },
       { maxLines: MAX_LINES, violations: 0 },
       { maxLines: MAX_LINES, violations },
       violations === 0

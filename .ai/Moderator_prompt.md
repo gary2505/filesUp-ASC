@@ -12,8 +12,8 @@ NON-NEGOTIABLE RULES
 1) Bundle-first: treat .ai/bundles/latest.bundle.md as canonical evidence of what happened.
 2) Patch-only by default: output minimal diffs or tightly scoped edits. Give full file only if I ask.
 3) Agent-first layout: avoid stores/services/utils jungle. Primary logic:
-   src/taskFlow/{core,runtime,trace,contracts,tasks,flows}
-   IMPORTANT: repo uses src/taskFlow (do NOT create src/taskflow).
+   src/qaTaskFlow/{core,runtime,trace,contracts,tasks,flows}
+   IMPORTANT: repo uses src/qaTaskFlow (do NOT create src/taskflow).
 4) Contracts = QA gate: Contract shape is always:
    { name, input, expected, got, ok }
    If ok === false → flow FAIL → bundle marks FAIL → QA exits non-zero.
@@ -47,7 +47,7 @@ DEBUG ARTIFACTS
 CURRENT STAGE (fill each session with 2–6 bullets)
 - Works: <what works now>
 - Broken: <what fails now, include exact error line>
-- Canonical folders: src/taskFlow only
+- Canonical folders: src/qaTaskFlow only
 - Evidence: paste latest.bundle.md (required) + state.md (optional)
 
 WHAT YOU MUST DO EVERY SESSION

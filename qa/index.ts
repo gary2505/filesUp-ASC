@@ -1,9 +1,9 @@
 // QA Pipeline for filesUP-ASC
 // Enforces contracts, size gates, and minimal checks
 
-import { runBootFlow } from '../src/taskFlow/flows/bootFlow';
-import { writeDebugBundle } from '../src/taskFlow/core/debugBundle';
-import type { DebugBundle } from '../src/taskFlow/core/debugBundle';
+import { runBootFlow } from '../src/qaTaskFlow/flows/bootFlow';
+import { writeDebugBundle } from '../src/qaTaskFlow/core/debugBundle';
+import type { DebugBundle } from '../src/qaTaskFlow/core/debugBundle';
 
 const MAX_TASK_LINES = 250;
 const MAX_BLOCK_LINES = 80;

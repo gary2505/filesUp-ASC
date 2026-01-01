@@ -24,13 +24,13 @@ Only YOU create and edit code here. I do NOT touch code manually, I only run com
      - Contracts: {input, expected, got, ok}
      - Log tail: last N log lines
    - **On future sessions, READ THIS FILE FIRST before changing code**
-   - Writer is in: `src/taskFlow/core/debugBundle.ts`
+   - Writer is in: `src/qaTaskFlow/core/debugBundle.ts`
 
 2) Folder Structure (TaskFlow Architecture)
-   - `src/taskFlow/tasks/` → isolated units (~100 lines each)
-   - `src/taskFlow/flows/` → orchestration (composition of tasks)
-   - `src/taskFlow/contracts/` → contract definitions (input/output validation)
-   - `src/taskFlow/core/` → shared utilities:
+   - `src/qaTaskFlow/tasks/` → isolated units (~100 lines each)
+   - `src/qaTaskFlow/flows/` → orchestration (composition of tasks)
+   - `src/qaTaskFlow/contracts/` → contract definitions (input/output validation)
+   - `src/qaTaskFlow/core/` → shared utilities:
      - `runtime.ts` → `runFlowWithContracts()` orchestrator
      - `trace.ts` → global `traceEvent()` for structured logging
      - `debugBundle.ts` → write canonical `.ai/bundles/latest.bundle.md`
@@ -64,13 +64,13 @@ Only YOU create and edit code here. I do NOT touch code manually, I only run com
    - `pnpm qa` runs all contracts via `scripts/run-contracts.ts` and exits non-zero on any failure
 
 5) Tracing & Runtime
-   - All flows use `runFlowWithContracts()` from `src/taskFlow/core/runtime.ts`
-   - Trace events collected in global buffer (`src/taskFlow/core/trace.ts`)
+   - All flows use `runFlowWithContracts()` from `src/qaTaskFlow/core/runtime.ts`
+   - Trace events collected in global buffer (`src/qaTaskFlow/core/trace.ts`)
    - Each flow automatically resets trace buffer at start
    - Final trace written to debug bundle `.ai/bundles/latest.bundle.md`
 
 6) Entry Points
-   - Frontend startup: calls `runBootFlow()` from `src/taskFlow/flows/bootFlow.ts`
+   - Frontend startup: calls `runBootFlow()` from `src/qaTaskFlow/flows/bootFlow.ts`
    - Test/QA: `scripts/run-contracts.ts` runs contracts in Node env
    - Both write debug bundle on completion
 
@@ -128,7 +128,7 @@ CONSTRAINTS & BEHAVIOR
 
 1. After any change, run `pnpm qa` and check `.ai/bundles/latest.bundle.md`
 2. If agent in future session asks "what happened?", answer: "read `.ai/bundles/latest.bundle.md` first"
-3. Port old FilesUP modules (GPS, Smart Errors, etc.) into `src/taskFlow/` as needed
+3. Port old FilesUP modules (GPS, Smart Errors, etc.) into `src/qaTaskFlow/` as needed
 4. Expand flows and tasks as features grow
 
 ---

@@ -6,7 +6,7 @@ Rules: patch-only diffs, no full file dumps unless asked, keep new files small (
 
 CONTEXT / CURRENT STRUCTURE
 
-- Canonical source folder is `src/taskFlow/` (DO NOT create `src/taskflow/`).
+- Canonical source folder is `src/qaTaskFlow/` (DO NOT create `src/taskflow/`).
 - Debug bundle path: `.ai/bundles/latest.bundle.md` (already written by QA or app).
 - Scripts live in `/scripts/` and are run via pnpm.
 - We want state artifacts in `.ai/`:
@@ -26,13 +26,13 @@ REQUIREMENTS (what to implement)
    - `generatedAt` ISO timestamp
    - `repoRoot` (absolute path or ".")
    - `foldersFound`:
-       - whether `src/taskFlow` exists
-       - list of subfolders under `src/taskFlow` limited to: `flows`, `tasks`, `contracts`, `core`
+       - whether `src/qaTaskFlow` exists
+       - list of subfolders under `src/qaTaskFlow` limited to: `flows`, `tasks`, `contracts`, `core`
    - `keyFilesFound` (booleans + paths if present):
        - `.ai/bundles/latest.bundle.md`
        - `scripts/qa.mjs`
        - `scripts/pack.mjs` (optional)
-       - `src/taskFlow/flows/bootFlow.ts` (if exists)
+       - `src/qaTaskFlow/flows/bootFlow.ts` (if exists)
        - `src-tauri/src/main.rs` or `src-tauri/src/lib.rs` (whichever exists)
    - `lastFailingContractId`:
        - parse `.ai/bundles/latest.bundle.md` and extract the first contract heading after "## CONTRACTS"
@@ -48,7 +48,7 @@ REQUIREMENTS (what to implement)
          5) add consult pack
 4) `state.md` must be a short human-readable mirror of json:
    - Title + generated time
-   - Canonical paths (src/taskFlow)
+   - Canonical paths (src/qaTaskFlow)
    - Folders found
    - Key files found
    - Last failing contract id

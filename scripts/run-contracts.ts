@@ -1,4 +1,4 @@
-import { runBootFlow } from "../src/taskFlow/flows/bootFlow";
+import { runBootFlow } from "../src/qaTaskFlow/flows/bootFlow";
 
 async function runTests() {
   console.log("🧪 Running contract tests...\n");

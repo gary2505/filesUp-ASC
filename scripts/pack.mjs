@@ -140,7 +140,7 @@ function renderPackMd({ generated, bundleTail, stateJson, stateMd }) {
   lines.push("## Non-negotiables (recap)");
   lines.push("- Bundle-first: `.ai/bundles/latest.bundle.md` is canonical evidence");
   lines.push("- Patch-only by default");
-  lines.push("- Layout: `src/taskFlow/{core,runtime,trace,contracts,tasks,flows}`");
+  lines.push("- Layout: `src/qaTaskFlow/{core,runtime,trace,contracts,tasks,flows}`");
   lines.push("- Contracts: `{ name, input, expected, got, ok }` and `ok=false` fails QA");
   lines.push("- Tracing: flows emit readable events via `ctx.addEvent(key,msg,data)`");
   lines.push("");

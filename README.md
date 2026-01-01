@@ -6,9 +6,9 @@ github.com/gary2505/filesUp-ASC
 
 ## Architecture: ASC (Agent System Coding)
 
-- **Tasks** (`src/taskFlow/tasks/`) — focused units of logic (~250 lines max)
-- **Flows** (`src/taskFlow/flows/`) — composition of tasks into user-level actions
-- **Contracts** (`src/taskFlow/contracts/`) — input/output validation
+- **Tasks** (`src/qaTaskFlow/tasks/`) — focused units of logic (~250 lines max)
+- **Flows** (`src/qaTaskFlow/flows/`) — composition of tasks into user-level actions
+- **Contracts** (`src/qaTaskFlow/contracts/`) — input/output validation
 - **Debug Bundles** (`.ai/bundles/latest.bundle.md`) — single source of truth for debugging
 
 ## Setup
@@ -42,7 +42,7 @@ pnpm qa
 
 ```text
 src/
-  ├── taskFlow/
+  ├── qaTaskFlow/
   │   ├── tasks/        → bootTask.ts (example task)
   │   ├── flows/        → bootFlow.ts (example flow)
   │   ├── contracts/    → bootContract.ts (contract definitions)

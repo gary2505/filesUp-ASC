@@ -2,7 +2,7 @@
 @import 'tailwindcss/components';
 @import 'tailwindcss/utilities';
 
-:global(html, body) {
+:global(html, body, #app) {
   @apply m-0 p-0 h-full w-full;
 }
 

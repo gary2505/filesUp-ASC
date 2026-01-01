@@ -10,7 +10,7 @@ This enables min-human debugging: agent reads bundle -> fixes -> reruns QA.
 NON-NEGOTIABLE
 1) Bundle-first: .ai/bundles/latest.bundle.md is canonical evidence.
 2) Patch-only by default (minimal edits). Full file only if asked.
-3) Canonical layout ONLY: src/taskFlow/{core,runtime,trace,contracts,tasks,flows} (case-sensitive). NEVER create src/taskflow.
+3) Canonical layout ONLY: src/qaTaskFlow/{core,runtime,trace,contracts,tasks,flows} (case-sensitive). NEVER create src/taskflow.
 4) Contracts shape ALWAYS: { name, input, expected, got, ok }. ok=false => FAIL.
 5) Flows emit readable events via ctx.addEvent(key,msg,data).
 6) File size discipline: keep files <250 lines (split if needed).
@@ -45,18 +45,18 @@ TASKS (implement in this order)
 - Keep it minimal and production-safe.
 
 (2) Frontend TaskFlow runtime: implement writing bundle via invoke.
-Create these NEW files under src/taskFlow (each <250 lines, header comment + function comments):
-- src/taskFlow/trace/index.ts
+Create these NEW files under src/qaTaskFlow (each <250 lines, header comment + function comments):
+- src/qaTaskFlow/trace/index.ts
   - Provide types: TraceEvent, TaskFlowContract, TaskFlowCtx
   - Provide: traceEvent(), addContract(), createTaskFlowCtx(), getTraceEvents(), getContracts(), resetTrace()
   - traceEvent should also console.log for dev but bundle is canonical.
-- src/taskFlow/runtime/writeBundle.ts
+- src/qaTaskFlow/runtime/writeBundle.ts
   - dynamic import @tauri-apps/api/core
   - invoke("write_debug_bundle", { md })
-- src/taskFlow/runtime/formatBundle.ts
+- src/qaTaskFlow/runtime/formatBundle.ts
   - function formatBundleMarkdown({summary, events, contracts, logTail?}) -> markdown string
   - Format matches QA bundle style: TRACE_SUMMARY, EVENTS, CONTRACTS, LOG TAIL.
-- src/taskFlow/runtime/runFlowWithContracts.ts
+- src/qaTaskFlow/runtime/runFlowWithContracts.ts
   - wrapper that:
     resetTrace -> ctx.addEvent(FLOW_START) -> run fn(ctx) -> on error add FAIL contract -> finally collect events+contracts
     Write bundle ALWAYS on FAIL, and writeOnOk option for Boot proof.
@@ -64,15 +64,15 @@ Create these NEW files under src/taskFlow (each <250 lines, header comment + fun
 
 (3) Commands + dispatch (minimal skeleton)
 Create:
-- src/taskFlow/core/commands.ts
+- src/qaTaskFlow/core/commands.ts
   - Cmd union: Boot, Sort placeholder
   - cmdBoot() helper
-- src/taskFlow/runtime/dispatch.ts
+- src/qaTaskFlow/runtime/dispatch.ts
   - dispatch(cmd): routes Boot to runBootFlow(); Sort can be TODO for later.
 
 (4) Boot flow proof
 Create:
-- src/taskFlow/flows/bootFlow.ts
+- src/qaTaskFlow/flows/bootFlow.ts
   - runBootFlow(): runFlowWithContracts("bootFlow", async(ctx)=>{ addEvent BOOT start/end }, {writeOnOk:true})
 
 (5) Wire boot to app startup (minimal)

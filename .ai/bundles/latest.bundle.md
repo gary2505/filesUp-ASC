@@ -1,29 +1,19 @@
 # DEBUG BUNDLE (latest)
 
 ## TRACE_SUMMARY
-QA executed
+Flow bootFlow executed successfully
 
 ## EVENTS
-- 2025-12-30T21:21:10.505Z [QA_START] pnpm run qa started
-- 2025-12-30T21:21:10.516Z [QA_OK] QA passed
+- 2025-12-31T02:33:45.412Z [FLOW_START] Flow bootFlow started
+- 2025-12-31T02:33:45.412Z [BOOT_START] Boot flow started {"appVersion":"0.0.1"}
+- 2025-12-31T02:33:45.413Z [BOOT_OK] Boot contract OK {"appVersion":"0.0.1","output":{"ok":true}}
+- 2025-12-31T02:33:45.413Z [FLOW_OK] Flow bootFlow completed successfully
 
 ## CONTRACTS
-- ✅ layoutGate/noLowercaseTaskflow
-  - input: {"forbidden":"src/taskflow"}
-  - expected: {"exists":false}
-  - got: {"exists":false}
-- ✅ layoutGate/requiredDirs
-  - input: {"required":["src/taskFlow/contracts","src/taskFlow/core","src/taskFlow/flows","src/taskFlow/tasks","src/taskFlow/runtime","src/taskFlow/trace"]}
-  - expected: {"missing":[]}
-  - got: {"missing":[]}
-- ✅ sizeGate/summary
-  - input: {"scope":"src/taskFlow"}
-  - expected: {"maxLines":250,"violations":0}
-  - got: {"maxLines":250,"violations":0}
-- ✅ toolsGate/packExists
-  - input: {"candidates":["V:/filesUp-ASC/scripts/pack.mjs","V:/filesUp-ASC/filesUp-ASC/scripts/pack.mjs","V:/filesUp-ASC/.ai/scripts/pack.mjs"]}
-  - expected: {"found":true}
-  - got: {"found":true,"path":"V:/filesUp-ASC/scripts/pack.mjs"}
+- ✅ boot-contract
+  - input: {"appVersion":"0.0.1"}
+  - expected: {"ok":true}
+  - got: {"ok":true}
 
 ## LOG TAIL
 _(none)_

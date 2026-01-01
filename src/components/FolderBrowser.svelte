@@ -1,6 +1,6 @@
 <script lang="ts">
-  import { openFolderFlow } from '../taskFlow/flows/openFolderFlow';
-  import type { FileEntry, OpenFolderOutput } from '../taskFlow/tasks/openFolderTask';
+  import { openFolderFlow } from '../qaTaskFlow/flows/openFolderFlow';
+  import type { FileEntry, OpenFolderOutput } from '../qaTaskFlow/tasks/openFolderTask';
 
   let folderPath = $state('C:\\');
   let output: OpenFolderOutput | null = $state(null);

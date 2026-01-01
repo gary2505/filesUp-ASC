@@ -59,12 +59,12 @@ SESSION GOAL (THIS REQUEST)
 Bootstrap a fresh project `filesup-asc` with:
 
 1. Working Tauri 2 + Svelte 5 (runes) + Tailwind + DaisyUI desktop app.
-2. taskFlow folder layout for Tasks/Flows/Contracts and debug bundles.
+2. qaTaskFlow folder layout for Tasks/Flows/Contracts and debug bundles.
 3. Basic QA pipeline wired to `pnpm run qa` (even if QA is mostly stubs now).
 4. A minimal “Hello ASC” flow that uses:
-   - one Task (in `src/taskFlow/tasks/`)
-   - one Flow (in `src/taskFlow/flows/`)
-   - one Contract (in `src/taskFlow/contracts/`)
+   - one Task (in `src/qaTaskFlow/tasks/`)
+   - one Flow (in `src/qaTaskFlow/flows/`)
+   - one Contract (in `src/qaTaskFlow/contracts/`)
    - and writes `.ai/bundles/latest.bundle.md` on startup.
 
 CONSTRAINTS & BEHAVIOR

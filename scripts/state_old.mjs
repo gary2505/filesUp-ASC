@@ -15,7 +15,7 @@ export function generateState(opts = {}) {
   const planPath = opts.planPath ?? path.join(repoRoot, "docs", "next_plan.md");
 
   // 1. Check folders
-  const taskFlowPath = path.join(repoRoot, "src", "taskFlow");
+  const taskFlowPath = path.join(repoRoot, "src", "qaTaskFlow");
   const taskFlowExists = fs.existsSync(taskFlowPath);
   const subfolders = [];
   if (taskFlowExists) {
@@ -34,7 +34,7 @@ export function generateState(opts = {}) {
   const bundlePath = path.join(repoRoot, ".ai", "bundles", "latest.bundle.md");
   const qaPath = path.join(repoRoot, "scripts", "qa.mjs");
   const packPath = path.join(repoRoot, "scripts", "pack.mjs");
-  const bootFlowPath = path.join(repoRoot, "src", "taskFlow", "flows", "bootFlow.ts");
+  const bootFlowPath = path.join(repoRoot, "src", "qaTaskFlow", "flows", "bootFlow.ts");
   const libPath = path.join(repoRoot, "src-tauri", "src", "lib.rs");
   const mainPath = path.join(repoRoot, "src-tauri", "src", "main.rs");
 
@@ -108,7 +108,7 @@ export function generateState(opts = {}) {
     `Generated: ${state.generatedAt}\n`,
     "## Repo Structure",
     `- Root: \`${state.repoRoot}\``,
-    `- taskFlow exists: ${state.foldersFound.taskFlowExists}`,
+    `- qaTaskFlow exists: ${state.foldersFound.taskFlowExists}`,
     `- subfolders: ${state.foldersFound.subfolders.join(", ") || "(none)"}\n`,
     "## Key Files",
     ...Object.entries(state.keyFilesFound).map(

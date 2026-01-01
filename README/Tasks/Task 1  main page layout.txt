@@ -1,0 +1,40 @@
+Task 1  main page layout
+I've created a comprehensive main page layout using DaisyUI with the following structure:
+Layout Structure:
+
+tabBarContainer - Top tab strip with tabs and menu button
+bookmarkMenuContainer - Horizontal menu bar with File, Edit, View, and Bookmarks
+mainContainer - Main workspace with 5 resizable panels:
+P0Container (15%) - Left sidebar with FolderBrowser
+P1Container (20%) - Status panel
+P2Container (flex-1) - Main workspace area with trace logs
+P3Container (20%) - Additional tools panel
+P4Container (15%) - Debug panel with DebugBundleViewer
+statusBarContainer - Bottom status bar with version info and status badges
+Features:
+
+Full-height layout using flexbox
+Resizable panels (basic resize handler for P0, can be enhanced)
+DaisyUI components: navbar, tabs, menu, card, badge, divider, mockup-code
+Clean separation of concerns with all requested containers
+Overflow handling for each panel
+The layout is fully responsive and uses only DaisyUI classes for styling!
+----------------
+Rows
+tabBarContainer – top tab strip row
+bookmarkMenuContainer – menu / bookmarks row
+mainContainer – main workspace with panels
+Panels inside mainContainer workspace with panels (resizable children)
+P0Container – left-most (e.g. sideBar)
+P1Container
+P2Container
+P3Container
+P4Container
+statusBarContainer – bottom status bar
+
+Inner IDs:
+tabBar (tab list)
+bookmarkMenu (menu content)
+P0-P4
+statusBar (status content)
+
