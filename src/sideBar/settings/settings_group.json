@@ -1,0 +1,876 @@
+﻿{
+  "settingsGroups": [
+    {
+      "id": 1,
+      "name": "General",
+      "desc": "General application settings",
+      "icon": "gear",
+      "settings": [
+        {
+          "key": "language",
+          "name": "Language",
+          "desc": "Application interface language",
+          "type": "select",
+          "inline": true,
+          "select width": "200px",
+          "options": [
+            { "value": "en", "label": "English" },
+            { "value": "es", "label": "Español" },
+            { "value": "fr", "label": "Français" },
+            { "value": "ar", "label": "العربية" },
+            { "value": "zh", "label": "中文" },
+            { "value": "ja", "label": "日本語" },
+            { "value": "ru", "label": "Русский" }
+          ]
+        },
+        {
+          "key": "dateFormat",
+          "name": "Date Format",
+          "desc": "How dates are displayed in the application",
+          "type": "select",
+          "inline": true,
+          "select width": "200px",
+          "options": [
+            { "value": "system", "label": "System (12/12/2027 8:01 PM)" },
+            { "value": "short", "label": "Short (12/12/27 20:01)" },
+            { "value": "universal", "label": "Universal (2027-12-12 20:01)" }
+          ]
+        },
+        {
+          "key": "startBehavior",
+          "name": "Start Behavior",
+          "desc": "What to open when the app starts",
+          "type": "select",
+          "inline": true,
+          "select width": "200px",
+          "options": [
+            { "value": "lastSession", "label": "Open last session" },
+            { "value": "home", "label": "Open Home" },
+            { "value": "specific", "label": "Open a specific folder" }
+          ]
+        },
+        {
+          "key": "launchAtStartup",
+          "name": "Launch at OS Startup",
+          "desc": "Automatically start the application when the system boots",
+          "type": "boolean",
+          "inline": true
+        },
+        {
+          "key": "newTabBehavior",
+          "name": "New Tab Behavior",
+          "desc": "What to open in a new tab",
+          "type": "select",
+          "inline": true,
+          "select width": "200px",
+          "options": [
+            { "value": "home", "label": "Open Home/Quick Access" },
+            { "value": "cloneTab", "label": "Clone the current tab's folder" }
+          ]
+        },
+        {
+          "key": "systemDebugLevel",
+          "name": "Debug Level",
+          "desc": "System logging verbosity (0=None, 3=Info, 7=Everything)",
+          "inline": true,
+          "select width": "200px",
+          "type": "select",
+          "hidden": true,
+          "options": [
+            { "value": 0, "label": "0 - None" },
+            { "value": 1, "label": "1 - Errors Only" },
+            { "value": 2, "label": "2 - Warnings" },
+            { "value": 3, "label": "3 - Info (Default)" },
+            { "value": 4, "label": "4 - Debug" },
+            { "value": 5, "label": "5 - Verbose" },
+            { "value": 6, "label": "6 - Trace" },
+            { "value": 7, "label": "7 - Everything" }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "name": "Appearance",
+      "desc": "",
+      "icon": "palette",
+      "settings": [
+        {
+          "key": "theme",
+          "name": "Theme",
+          "desc": "Application color theme",
+          "inline": true,
+          "select width": "200px",
+          "type": "select",
+          "options": [
+            { "value": "light", "label": "Light" },
+            { "value": "dark", "label": "Dark" },
+            { "value": "cupcake", "label": "Cupcake" },
+            { "value": "bumblebee", "label": "Bumblebee" },
+            { "value": "synthwave", "label": "Synthwave" },
+            { "value": "valentine", "label": "Valentine" },
+            { "value": "halloween", "label": "Halloween" },
+            { "value": "garden", "label": "Garden" },
+            { "value": "aqua", "label": "Aqua" },
+            { "value": "luxury", "label": "Luxury" },
+            { "value": "night", "label": "Night" },
+            { "value": "coffee", "label": "Coffee" },
+            { "value": "winter", "label": "Winter" }
+          ]
+        },
+        {
+          "key": "fontFamily",
+          "name": "Font Family",
+          "desc": "Application font family",
+          "inline": true,
+          "select width": "200px",
+          "type": "select",
+          "options": [
+            { "value": "system-ui", "label": "System Default" },
+            { "value": "Arial, sans-serif", "label": "Arial" },
+            { "value": "'Segoe UI', Tahoma, sans-serif", "label": "Segoe UI" },
+            { "value": "'Helvetica Neue', Helvetica, sans-serif", "label": "Helvetica" },
+            { "value": "'Times New Roman', Times, serif", "label": "Times New Roman" },
+            { "value": "Georgia, serif", "label": "Georgia" },
+            { "value": "'Courier New', Courier, monospace", "label": "Courier New" },
+            { "value": "'Consolas', monospace", "label": "Consolas" },
+            { "value": "'Roboto', sans-serif", "label": "Roboto" },
+            { "value": "'Open Sans', sans-serif", "label": "Open Sans" }
+          ]
+        },
+        {
+          "key": "fontSize",
+          "name": "Font Size",
+          "desc": "Interface font size",
+          "inline": true,
+          "select width": "200px",
+          "type": "select",
+          "options": [
+            { "value": "xs", "label": "XS" },
+            { "value": "small", "label": "S" },
+            { "value": "medium", "label": "M (default)" },
+            { "value": "large", "label": "L" },
+            { "value": "xl", "label": "XL" }
+          ]
+        },
+        {
+          "key": "iconSize",
+          "name": "Icon Size",
+          "desc": "Size of file and folder icons",
+          "inline": true,
+          "select width": "200px",
+          "type": "select",
+          "options": [
+            { "value": "small", "label": "Small" },
+            { "value": "medium", "label": "Medium (default)" },
+            { "value": "large", "label": "Large" },
+            { "value": "extra-large", "label": "Extra large" },
+            { "value": "none", "label": "None" }
+          ]
+        },
+        {
+          "key": "iconStyle",
+          "name": "Icon Style",
+          "desc": "Style of icons displayed",
+          "inline": true,
+          "select width": "200px",
+          "type": "select",
+          "options": [
+            { "value": "filled", "label": "Filled" },
+            { "value": "outline", "label": "Outline" }
+          ]
+        },
+        {
+          "key": "folderIconColor",
+          "name": "Folder Icon Color",
+          "desc": "Custom color for folder icons (leave empty for default)",
+          "inline": true,
+          "type": "color"
+        },
+        {
+          "key": "fileIconColor",
+          "name": "File Icon Color",
+          "desc": "Custom color for file icons (leave empty for default)",
+          "inline": true,
+          "type": "color"
+        },
+        {
+          "key": "rowStyle",
+          "name": "Row Style",
+          "desc": "Visual style for file/folder rows",
+          "inline": true,
+          "select width": "200px",
+          "type": "select",
+          "options": [
+            { "value": "zebra", "label": "Zebra stripes (default)" },
+            { "value": "none", "label": "None" }
+          ]
+        },
+        {
+          "key": "showThumbnailsListView",
+          "name": "Show Thumbnails in List View",
+          "desc": "Show small previews for images, videos and documents instead of generic icons.",
+          "type": "boolean",
+          "inline": true
+        },
+        {
+          "key": "showThumbnailsDetailsView",
+          "name": "Show Thumbnails in Details View",
+          "desc": "Show small previews for images, videos and documents instead of generic icons.",
+          "type": "boolean",
+          "inline": true
+        },
+        {
+          "key": "showRowInlineActions",
+          "name": "Show Inline Row Actions",
+          "desc": "Show action buttons on hover",
+          "type": "boolean",
+          "inline": true
+        },
+        {
+          "key": "smartPrimaryRowAction",
+          "name": "Smart Primary Action",
+          "desc": "When On: left-click chooses the \"best\" action by context",
+          "type": "boolean",
+          "inline": true
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "name": "Layout",
+      "desc": "Customize the arrangement of panels, toolbars, tabs and the status bar to match your workflow",
+      "icon": "layout",
+      "settings": [
+        {
+          "key": "toolbarPosition",
+          "name": "Toolbar Position",
+          "desc": "Choose where the main toolbar is aligned in the top row",
+          "type": "select",
+          "inline": true,
+          "select width": "200px",
+          "options": [
+            { "value": "left", "label": "Left (default)" },
+            { "value": "center", "label": "Center" },
+            { "value": "right", "label": "Right" }
+          ]
+        },
+        {
+          "key": "sidebarPosition",
+          "name": "Sidebar Position",
+          "desc": "Show the folder tree sidebar on the left or right side of the window",
+          "type": "select",
+          "inline": true,
+          "select width": "200px",
+          "options": [
+            { "value": "left", "label": "Left (default)" },
+            { "value": "right", "label": "Right" }
+          ]
+        },
+        {
+          "key": "panelLayout",
+          "name": "Panel Layout",
+          "desc": "Choose whether the folder tree and preview panel appear with the tree on the left or on the right",
+          "type": "select",
+          "inline": true,
+          "select width": "250px",
+          "options": [
+            { "value": "treeLeftPreviewRight", "label": "Tree left / Preview right (default)" },
+            { "value": "treeRightPreviewLeft", "label": "Tree right / Preview left" }
+          ]
+        },
+        {
+          "key": "showStatusBar",
+          "name": "Show Status Bar",
+          "desc": "Show the bottom status bar with item counts, selection info and operation progress",
+          "type": "boolean",
+          "inline": true
+        },
+        {
+          "key": "showTabBarWhenOnlyOneTab",
+          "name": "Show Tab Bar When Only One Tab",
+          "desc": "Always show the tab bar even if only one tab is open",
+          "type": "boolean",
+          "inline": true
+        },
+        {
+          "key": "rememberPanelSizesPerTab",
+          "name": "Remember Panel Sizes Per Tab",
+          "desc": "When on, each tab remembers its own panel splitter positions",
+          "type": "boolean",
+          "inline": true
+        },
+        {
+          "key": "showBookmarksBar",
+          "name": "Show Bookmarks Bar",
+          "desc": "Show the bookmarks bar for quick access to favorite folders and locations",
+          "type": "boolean",
+          "inline": true
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "name": "Folders & Navigation",
+      "desc": "Folder management and display options",
+      "icon": "folder",
+      "settings": [
+        {
+          "key": "showHiddenFolders",
+          "name": "Show Hidden Folders",
+          "desc": "Show folders marked as hidden (e.g. app data, config folders).",
+          "type": "boolean",
+          "inline": true
+        },
+        {
+          "key": "showProtectedSystemFolders",
+          "name": "Show Protected System Folders",
+          "desc": "Show critical OS folders (ProgramData, System, etc.). Recommended: Off.",
+          "type": "boolean",
+          "inline": true
+        },
+        {
+          "key": "showDotFolders",
+          "name": "Show Dot-folders (.git, .svn, .hg…)",
+          "desc": "Show folders whose names start with a dot, often used for tools and version control.",
+          "type": "boolean",
+          "inline": true
+        },
+        {
+          "key": "openFoldersWith",
+          "name": "Open Folders With",
+          "desc": "Choose whether a single click or double click opens the folder.",
+          "inline": true,
+          "select width": "200px",
+          "type": "select",
+          "options": [
+            { "value": "single-click", "label": "Single click" },
+            { "value": "double-click", "label": "Double click (default)" }
+          ]
+        },
+        {
+          "key": "openFoldersInNewTab",
+          "name": "Open Folders in New Tab by Default",
+          "desc": "When On, opening a folder creates a new tab instead of reusing the current one.",
+          "type": "boolean",
+          "inline": true
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "name": "Files",
+      "desc": "File management and display options",
+      "icon": "📄",
+      "settings": [
+        {
+          "key": "showHiddenFiles",
+          "name": "Show Hidden Files",
+          "desc": "Show files marked as hidden by the OS.",
+          "type": "boolean",
+          "inline": true
+        },
+        {
+          "key": "showFileExtensions",
+          "name": "Show File Extensions for Known Types",
+          "desc": "Always show file extensions (like .txt, .jpg). Recommended: On.",
+          "type": "boolean",
+          "inline": true
+        },
+        {
+          "key": "showAlternateDataStreams",
+          "name": "Show Alternate Data Streams (NTFS)",
+          "desc": "On NTFS drives, some files store extra 'hidden' data streams (e.g. Zone.Identifier). When On, show them as extra entries.",
+          "type": "boolean",
+          "inline": true
+        },
+        {
+          "key": "sortBy",
+          "name": "Default File Sort By",
+          "desc": "Default sorting method for files",
+          "inline": true,
+          "select width": "200px",
+          "type": "select",
+          "options": [
+            { "value": "name", "label": "Name" },
+            { "value": "date", "label": "Date Modified" },
+            { "value": "size", "label": "Size" },
+            { "value": "type", "label": "Type" }
+          ]
+        },
+        {
+          "key": "sortOrder",
+          "name": "Default Sort Order",
+          "desc": "Default sorting direction",
+          "inline": true,
+          "select width": "200px",
+          "type": "select",
+          "options": [
+            { "value": "asc", "label": "Ascending" },
+            { "value": "desc", "label": "Descending" }
+          ]
+        },
+        {
+          "key": "showThumbnailsListView",
+          "name": "Show Thumbnails in List View",
+          "desc": "Show small previews for images, videos and documents instead of generic icons.",
+          "type": "boolean",
+          "inline": true
+        },
+        {
+          "key": "showThumbnailsDetailsView",
+          "name": "Show Thumbnails in Details View",
+          "desc": "Show small previews for images, videos and documents instead of generic icons.",
+          "type": "boolean",
+          "inline": true
+        },
+        {
+          "key": "filterLabel",
+          "name": "Hide Noisy Files",
+          "desc": "Automatically hide common backup, metadata and version-control items.",
+          "type": "label"
+        },
+        {
+          "key": "hideBackupFiles",
+          "name": "Hide Backup Files",
+          "desc": "Do not show files like *.bak",
+          "type": "boolean",
+          "inline": true
+        },
+        {
+          "key": "hideTemporaryFiles",
+          "name": "Hide Temporary Files",
+          "desc": "Do not show files like *~ and temporary editor backups.",
+          "type": "boolean",
+          "inline": true
+        },
+        {
+          "key": "hideOsMetadataFiles",
+          "name": "Hide OS Metadata Files",
+          "desc": "Do not show system metadata files such as Thumbs.db, .DS_Store and similar.",
+          "type": "boolean",
+          "inline": true
+        },
+        {
+          "key": "hideVersionControlFolders",
+          "name": "Hide Version Control Folders",
+          "desc": "Do not show folders like .git, .svn, .hg.",
+          "type": "boolean",
+          "inline": true
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "name": "Actions & Confirmations",
+      "desc": "File operations and confirmations",
+      "icon": "action",
+      "settings": [
+        {
+          "key": "doubleClickEmptyGoesParent",
+          "name": "Double-click Empty Space Goes to Parent Folder",
+          "desc": "Double-clicking an empty area in a panel navigates one level up.",
+          "type": "boolean",
+          "inline": true
+        },
+        {
+          "key": "confirmDeleteFiles",
+          "name": "Ask Before Deleting Files and Folders",
+          "desc": "Show a confirmation dialog before delete.",
+          "type": "boolean",
+          "inline": true
+        },
+        {
+          "key": "showDeleteSnackbar",
+          "name": "Show 'Deleted' Notification",
+          "desc": "Show a snackbar after delete succeeds.",
+          "type": "boolean",
+          "inline": true
+        },
+        {
+          "key": "confirmMove",
+          "name": "Ask Before Moving (Cut–Paste) Items",
+          "desc": "Confirm before moving selected items to a new location.",
+          "type": "boolean",
+          "inline": true
+        },
+        {
+          "key": "showMovedNotification",
+          "name": "Show 'Moved' Notification",
+          "desc": "Show a snackbar after a move operation succeeds.",
+          "type": "boolean",
+          "inline": true
+        },
+        {
+          "key": "confirmCopy",
+          "name": "Ask Before Copying (Copy–Paste) Items",
+          "desc": "Confirm copy operations. Turn off if you copy very often.",
+          "type": "boolean",
+          "inline": true
+        },
+        {
+          "key": "showCopiedNotification",
+          "name": "Show 'Copied' Notification",
+          "desc": "Show a snackbar after a copy operation succeeds.",
+          "type": "boolean",
+          "inline": true
+        },
+        {
+          "key": "confirmRename",
+          "name": "Ask Before Renaming Items",
+          "desc": "Show a confirmation dialog before applying rename (useful for bulk rename).",
+          "type": "boolean",
+          "inline": true
+        },
+        {
+          "key": "pasteRenamePattern",
+          "name": "Rename Pattern",
+          "desc": "Pattern for bulk rename, e.g. File_{index} or {name}_{date}.",
+          "inline": true,
+          "select width": "200px",
+          "type": "select",
+          "options": [
+            { "value": "os-default", "label": "OS Default" },
+            { "value": "name-n", "label": "name (n)" },
+            { "value": "name-copy-n", "label": "name - Copy (n)" },
+            { "value": "name-paren-n", "label": "name (n)" },
+            { "value": "name-padded-n", "label": "name_001" },
+            { "value": "name-dash-n", "label": "name-n" }
+          ]
+        },
+        {
+          "key": "snackbarDuration",
+          "name": "Notification Duration (Seconds)",
+          "desc": "How long snackbars stay visible before closing automatically.",
+          "inline": true,
+          "select width": "200px",
+          "type": "select",
+          "options": [
+            { "value": 3, "label": "3 seconds" },
+            { "value": 4, "label": "4 seconds" },
+            { "value": 5, "label": "5 seconds" },
+            { "value": 7, "label": "7 seconds" },
+            { "value": 10, "label": "10 seconds" }
+          ]
+        },
+        {
+          "key": "autoSanitizeNames",
+          "name": "Auto-fix Invalid File Names",
+          "desc": "When you type an invalid character for this OS (like \\ / : * ? \" < > | on Windows), FilesUp automatically replaces it (for example with _) instead of showing an error.",
+          "type": "boolean",
+          "inline": true
+        },
+        {
+          "key": "playSoundOnError",
+          "name": "Play Sound on Error",
+          "desc": "Play a short sound when an operation fails",
+          "type": "boolean",
+          "inline": true
+        }
+      ]
+    },
+    {
+      "id": 7,
+      "name": "Notifications",
+      "desc": "Toast: Short popup that auto-hides. Snackbar: Popup with an Undo button",
+      "icon": "🔔",
+      "settings": [
+        {
+          "key": "showDeleteSnackbar",
+          "name": "Show Delete snackbar",
+          "desc": "Show compact snackbar after deleting small folders (≤50 items)",
+          "type": "boolean",
+          "inline": true
+        },
+        {
+          "key": "showCopyPasteSnackbar",
+          "name": "Show Copy-Paste snackbar",
+          "desc": "Show compact snackbar after copying small folders (≤50 items)",
+          "type": "boolean",
+          "inline": true
+        },
+        {
+          "key": "showCutPasteSnackbar",
+          "name": "Show Cut-Paste snackbar",
+          "desc": "Show compact snackbar after cutting small folders (≤50 items)",
+          "type": "boolean",
+          "inline": true
+        },
+        {
+          "key": "snackbarDuration",
+          "name": "Snackbar duration",
+          "desc": "How long action notifications (snackbars) remain on screen",
+          "inline": true,
+          "type": "number",
+          "min": 1,
+          "max": 10
+        },
+        {
+          "key": "toastPosition",
+          "name": "Toast position",
+          "desc": "Where toast notifications should appear on the screen.",
+          "inline": true,
+          "select width": "160px",
+          "type": "select",
+          "options": [
+            { "value": "center", "label": "Center" },
+            { "value": "top-right", "label": "Top-right" },
+            { "value": "top-left", "label": "Top-left" },
+            { "value": "bottom-right", "label": "Bottom-right" },
+            { "value": "bottom-left", "label": "Bottom-left" }
+          ]
+        },
+        {
+          "key": "toastDurationSeconds",
+          "name": "Toast duration",
+          "desc": "How long to keep toasts visible (seconds).",
+          "inline": true,
+          "type": "number",
+          "min": 1,
+          "max": 10
+        },
+        {
+          "key": "toastDefaultStyle",
+          "name": "Toast color style",
+          "desc": "Default color style for toasts.",
+          "inline": true,
+          "select width": "160px",
+          "type": "select",
+          "options": [
+            { "value": "warning", "label": "Warning" },
+            { "value": "neutral", "label": "Neutral" },
+            { "value": "error", "label": "Error" }
+          ]
+        },
+        {
+          "key": "showPasteRenameDialog",
+          "name": "Show paste rename dialog (on conflict)",
+          "desc": "Show a rename dialog only when a pasted item already exists",
+          "type": "boolean",
+          "inline": true
+        },
+        {
+          "key": "pasteRenamePattern",
+          "name": "Rename pattern",
+          "desc": "How to auto-rename copies, e.g. File (2)",
+          "inline": true,
+          "select width": "280px",
+          "type": "select",
+          "options": [
+            { "value": "os-default", "label": "OS Default" },
+            { "value": "name-n", "label": "Name+(n) - no space, e.g. file(2)" },
+            { "value": "name-copy-n", "label": "Name+(Copy+n) - no space, e.g. fileCopy2" },
+            { "value": "name-paren-n", "label": "Name(n) - no space, e.g. file2" },
+            { "value": "name-padded-n", "label": "Name (##n) - e.g. file 001" },
+            { "value": "name-dash-n", "label": "Name (- n) - e.g. file - 2" }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 8,
+      "name": "System",
+      "desc": "System monitoring preferences",
+      "icon": "chip",
+      "settings": [
+        {
+          "key": "system.showStatusBarMetrics",
+          "name": "Show Status Bar Metrics",
+          "desc": "Toggle CPU, memory, and disk metrics in the status bar",
+          "type": "boolean",
+          "inline": true
+        },
+        {
+          "key": "system.cpuMemIntervalMs",
+          "name": "CPU / RAM Refresh (ms)",
+          "desc": "How often to update CPU and memory usage (milliseconds)",
+          "inline": true,
+          "type": "number",
+          "min": 1000,
+          "max": 60000
+        },
+        {
+          "key": "system.diskCheckIntervalSec",
+          "name": "Disk Check Interval (sec)",
+          "desc": "How often to refresh disk usage metrics (seconds)",
+          "inline": true,
+          "type": "number",
+          "min": 15,
+          "max": 600
+        },
+        {
+          "key": "system.diskWarnThresholdPercent",
+          "name": "Disk Warning Threshold (%)",
+          "desc": "Warn when disk usage exceeds this percentage",
+          "inline": true,
+          "type": "number",
+          "min": 50,
+          "max": 100
+        },
+        {
+          "key": "system.cpuWarnThresholdPercent",
+          "name": "CPU Warning Threshold (%)",
+          "desc": "Warn when CPU usage exceeds this percentage",
+          "inline": true,
+          "type": "number",
+          "min": 10,
+          "max": 100
+        },
+        {
+          "key": "system.ramWarnThresholdPercent",
+          "name": "RAM Warning Threshold (%)",
+          "desc": "Warn when RAM usage exceeds this percentage",
+          "inline": true,
+          "type": "number",
+          "min": 10,
+          "max": 100
+        }
+      ]
+    },
+    {
+      "id": 9,
+      "name": "Privacy & Diagnostics",
+      "desc": "Data collection and privacy settings",
+      "icon": "🔒",
+      "settings": [
+        {
+          "key": "crashReportLevel",
+          "name": "Send Crash/Error Report",
+          "desc": "What diagnostic information to send",
+          "type": "select",
+          "inline": true,
+          "select width": "200px",
+          "options": [
+            { "value": "off", "label": "Off" },
+            { "value": "crashOnly", "label": "Crash-only" },
+            { "value": "crashPerf", "label": "Crash + Performance" },
+            { "value": "full", "label": "Full (optional)" }
+          ]
+        },
+        {
+          "key": "privacyLink",
+          "name": "What we collect",
+          "desc": "View our data collection policy",
+          "type": "link",
+          "label": "Click here",
+          "url": "https://example.com/privacy"
+        },
+        {
+          "key": "exportDiagnostics",
+          "name": "Export Diagnostics Bundle",
+          "desc": "Download your diagnostic data",
+          "type": "button",
+          "label": "Export",
+          "action": "exportDiagnostics"
+        },
+        {
+          "key": "deleteDiagnostics",
+          "name": "Delete Local Diagnostics/Cache",
+          "desc": "Permanently remove local diagnostic data",
+          "type": "button",
+          "label": "Delete",
+          "action": "deleteDiagnostics"
+        }
+      ]
+    },
+    {
+      "id": 10,
+      "name": "About & Updates",
+      "desc": "",
+      "icon": "info",
+      "settings": [
+        {
+          "key": "versionText",
+          "name": "Version 2.11",
+          "type": "label",
+          "inline group": "version-row"
+        },
+        {
+          "key": "checkUpdatesButton",
+          "name": "",
+          "desc": "Check for new versions",
+          "type": "button",
+          "action": "checkUpdates",
+          "label": "Check for Updates",
+          "inline group": "version-row",
+          "button width": "256px"
+        },
+        {
+          "key": "copyrightText",
+          "name": "© FilesUP Group, LLC",
+          "type": "label",
+          "inline": true
+        },
+        {
+          "key": "updateMode",
+          "name": "Update Mode",
+          "desc": "How updates are handled",
+          "inline": true,
+          "select width": "256px",
+          "type": "select",
+          "options": [
+            { "value": "automatic", "label": "Automatic updates" },
+            { "value": "manual", "label": "Manual updates" }
+          ]
+        },
+        {
+          "key": "updateNote",
+          "name": "Note",
+          "desc": "If your version is older than one year, FilesUP may update automatically for security and compatibility.",
+          "type": "note"
+        },
+        {
+          "key": "webSection",
+          "name": "Web",
+          "type": "label"
+        },
+        {
+          "key": "website",
+          "name": "fileup.net",
+          "desc": "Visit our website",
+          "type": "link",
+          "url": "https://fileup.net",
+          "label": "fileup.net"
+        },
+        {
+          "key": "releaseNotes",
+          "name": "FilesUP News & Release Notes",
+          "desc": "View latest updates",
+          "type": "link",
+          "url": "https://fileup.net/news",
+          "label": "View Release Notes"
+        },
+        {
+          "key": "legalSection",
+          "name": "Legal",
+          "type": "label"
+        },
+        {
+          "key": "privacy",
+          "name": "Privacy Notice",
+          "desc": "Read our privacy policy",
+          "type": "link",
+          "url": "https://fileup.net/privacy",
+          "label": "Privacy Notice"
+        },
+        {
+          "key": "license",
+          "name": "License and Service Agreement",
+          "desc": "Terms of service",
+          "type": "link",
+          "url": "https://fileup.net/license",
+          "label": "License Agreement"
+        },
+        {
+          "key": "acknowledgements",
+          "name": "Acknowledgements",
+          "desc": "Third-party licenses",
+          "type": "link",
+          "url": "https://fileup.net/acknowledgements",
+          "label": "View Acknowledgements"
+        }
+      ]
+    }
+  ]
+}
+

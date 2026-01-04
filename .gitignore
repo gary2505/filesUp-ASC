@@ -3,6 +3,7 @@ node_modules/
 dist/
 build/
 target/
+README/
 .DS_Store
 *.swp
 *.swo
